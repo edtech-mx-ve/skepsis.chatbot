@@ -1,0 +1,35 @@
+{
+  "version": "0.4.0",
+  "embedding_kind": "word2vec",
+  "selection_metric": "validation_macro_f1",
+  "validation_candidates": [
+    {
+      "embedding_kind": "word2vec",
+      "accuracy": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "macro_f1": 1.0
+    },
+    {
+      "embedding_kind": "glove",
+      "accuracy": 0.9814814814814815,
+      "macro_precision": 0.9824561403508771,
+      "macro_recall": 0.9814814814814815,
+      "macro_f1": 0.9814671814671815
+    }
+  ],
+  "test": {
+    "accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0
+  },
+  "classes": [
+    "negativo",
+    "neutral",
+    "positivo"
+  ],
+  "train_rows": 252,
+  "validation_rows": 54,
+  "test_rows": 54
+}

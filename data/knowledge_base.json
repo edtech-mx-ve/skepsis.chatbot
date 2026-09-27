@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "name": "Base de conocimiento inicial de Sképsis Apps",
+    "version": "0.1.0",
+    "language": "es",
+    "scope": [
+      "servicios",
+      "metodologia",
+      "soluciones",
+      "tecnologias",
+      "contacto",
+      "diagnostico_preliminar"
+    ]
+  },
+  "company": {
+    "name": "Sképsis Apps",
+    "positioning": "Servicios tecnológicos orientados a inteligencia artificial, ciencia de datos, automatización y desarrollo de soluciones digitales útiles, medibles y técnicamente sólidas."
+  },
+  "services": {
+    "ia_aplicada": {
+      "title": "IA aplicada",
+      "description": "Diseño de prototipos y soluciones con modelos predictivos, agentes y automatización inteligente para clasificar información, anticipar escenarios y recomendar acciones.",
+      "keywords": [
+        "ia",
+        "inteligencia artificial",
+        "machine learning",
+        "modelo predictivo",
+        "prediccion",
+        "clasificacion",
+        "agente",
+        "recomendacion",
+        "predecir",
+        "predecir demanda",
+        "pronosticar",
+        "pronostico",
+        "proyectar",
+        "estimar",
+        "futuro",
+        "demanda",
+        "ventas futuras",
+        "recomendar",
+        "clasificar",
+        "anticipar",
+        "anticipacion",
+        "proyeccion",
+        "estimacion",
+        "resultado futuro",
+        "valor futuro",
+        "proximo periodo",
+        "proximo trimestre",
+        "siguiente trimestre",
+        "proximo semestre",
+        "siguiente semestre",
+        "historico de ventas",
+        "registros historicos"
+      ],
+      "diagnostic_question": "¿Qué resultado esperas obtener con IA: clasificar, predecir, recomendar o automatizar una decisión?"
+    },
+    "ciencia_datos": {
+      "title": "Ciencia de datos",
+      "description": "Procesamiento, análisis y visualización de datos para convertir información dispersa en indicadores, patrones y conocimiento accionable.",
+      "keywords": [
+        "datos",
+        "ciencia de datos",
+        "analisis",
+        "analizar",
+        "indicadores",
+        "visualizacion",
+        "reportes",
+        "estadistica",
+        "patrones",
+        "tendencias",
+        "segmentos",
+        "explorar datos",
+        "analisis descriptivo",
+        "relaciones",
+        "comportamiento",
+        "factores asociados",
+        "factores relacionados",
+        "variables relacionadas",
+        "relacion entre variables",
+        "asociacion",
+        "asociados",
+        "correlacion",
+        "disminucion",
+        "caida",
+        "menor compra",
+        "retencion",
+        "abandono",
+        "perdida de clientes",
+        "comportamiento de clientes",
+        "explicar cambios",
+        "investigar factores"
+      ],
+      "diagnostic_question": "¿En qué formato están tus datos y qué decisión o indicador necesitas obtener?"
+    },
+    "automatizacion": {
+      "title": "Automatización",
+      "description": "Digitalización de flujos, integración de herramientas y reducción de tareas repetitivas o críticas mediante procesos automáticos, validaciones y reportes.",
+      "keywords": [
+        "automatizacion",
+        "automatizar",
+        "tarea repetitiva",
+        "proceso",
+        "excel",
+        "reporte semanal",
+        "integracion",
+        "flujo",
+        "automatizar reportes",
+        "reportes automaticos",
+        "procesamiento manual",
+        "automatizar los reportes",
+        "automaticamente",
+        "manual",
+        "consolidar",
+        "consolidacion",
+        "repetitivo",
+        "periodico",
+        "cada semana",
+        "cada lunes",
+        "informe",
+        "informes",
+        "generar automaticamente",
+        "procesar archivos",
+        "flujo automatico"
+      ],
+      "diagnostic_question": "¿Qué tarea se repite, con qué frecuencia y qué información recibe y produce?"
+    },
+    "aplicaciones_empresariales": {
+      "title": "Aplicaciones empresariales",
+      "description": "Desarrollo de aplicaciones, dashboards, demostradores técnicos, APIs y productos ligeros desplegables en entornos web, cloud o plataformas de validación.",
+      "keywords": [
+        "aplicacion",
+        "app",
+        "dashboard",
+        "api",
+        "web",
+        "cloud",
+        "sistema",
+        "demo",
+        "prototipo",
+        "pantalla",
+        "portal",
+        "interfaz",
+        "navegador",
+        "usuarios internos",
+        "gerencia",
+        "directivos",
+        "panel",
+        "graficos",
+        "filtros"
+      ],
+      "diagnostic_question": "¿Quién usará la solución y cuál es la acción principal que debe poder realizar?"
+    }
+  },
+  "methodology": [
+    {
+      "step": 1,
+      "name": "Diagnóstico",
+      "description": "Entender el problema, los datos disponibles, los procesos involucrados y el resultado esperado."
+    },
+    {
+      "step": 2,
+      "name": "Arquitectura",
+      "description": "Definir el flujo de datos, componentes tecnológicos, integraciones y ruta técnica."
+    },
+    {
+      "step": 3,
+      "name": "Construcción tecnológica",
+      "description": "Desarrollar la aplicación, dashboard, API, flujo ETL, modelo predictivo o prototipo requerido."
+    },
+    {
+      "step": 4,
+      "name": "Validación",
+      "description": "Probar la solución, revisar resultados, documentar hallazgos y definir próximos pasos."
+    }
+  ],
+  "solutions": [
+    "Aplicaciones empresariales",
+    "Dashboards inteligentes",
+    "APIs predictivas",
+    "Modelos de machine learning",
+    "Flujos ETL",
+    "Automatización de reportes",
+    "Prototipos funcionales",
+    "Arquitecturas cloud",
+    "Soluciones de análisis y visualización de datos",
+    "Sistemas ligeros para validación y despliegue"
+  ],
+  "technologies": [
+    "Python",
+    "Streamlit",
+    "FastAPI",
+    "Flask",
+    "scikit-learn",
+    "Pandas",
+    "NumPy",
+    "Plotly",
+    "Matplotlib",
+    "ONNX",
+    "Hugging Face",
+    "GitHub",
+    "Docker",
+    "SQLite",
+    "PostgreSQL"
+  ],
+  "contact": {
+    "email": "skepsis.apps@gmail.com",
+    "whatsapp_mexico": "+52 55 6574 1576",
+    "whatsapp_venezuela": "+58 424 403 55 99",
+    "website": "https://skepsis-apps.github.io/landing_page/"
+  },
+  "guardrail": {
+    "out_of_scope": "Puedo ayudarte con servicios de Sképsis Apps, IA aplicada, ciencia de datos, automatización, aplicaciones, dashboards, APIs y diagnóstico preliminar de proyectos."
+  }
+}

@@ -1,0 +1,7 @@
+streamlit==1.64.0
+pandas>=2.2,<3.0
+numpy>=2.0,<3.0
+scikit-learn==1.8.0
+joblib>=1.4,<2.0
+gensim>=4.4,<5.0
+scipy>=1.10,<2.0
