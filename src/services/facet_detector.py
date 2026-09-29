@@ -18,6 +18,13 @@ _STOPWORDS: frozenset[str] = frozenset(
 
 _FACET_ALIASES = MappingProxyType(
     {
+        "pln_chatbot": (
+            "chatbot",
+            "chat bot",
+            "asistente virtual",
+            "asistente conversacional",
+            "bot conversacional",
+        ),
         "deep_learning": (
             "deep learning",
             "aprendizaje profundo",
@@ -178,6 +185,15 @@ _HIGH_RISK_TERMS: tuple[str, ...] = (
     "robot autonomo",
     "decision autonoma de alto impacto",
     "sin supervision humana",
+    "consultorio clinico",
+    "consultorio medico",
+    "clinica",
+    "datos de pacientes",
+    "historia clinica",
+    "sintomas",
+    "triaje",
+    "diagnostico medico",
+    "tratamiento medico",
 )
 
 

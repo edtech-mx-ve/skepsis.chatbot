@@ -225,6 +225,26 @@
       "phrase": "necesito explicar por qué el sistema tomó esa decisión",
       "intent": "ia_aplicada",
       "facet": "decision_explicable"
+    },
+    {
+      "phrase": "chatbot para consultorio",
+      "intent": "ia_aplicada",
+      "facet": "pln_chatbot"
+    },
+    {
+      "phrase": "chatbot para clinica",
+      "intent": "ia_aplicada",
+      "facet": "pln_chatbot"
+    },
+    {
+      "phrase": "chatbot desde whatsapp",
+      "intent": "ia_aplicada",
+      "facet": "pln_chatbot"
+    },
+    {
+      "phrase": "chatbot por whatsapp",
+      "intent": "ia_aplicada",
+      "facet": "pln_chatbot"
     }
   ],
   "not_documented_as_standard_service": [

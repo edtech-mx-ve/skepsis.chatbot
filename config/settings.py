@@ -2,7 +2,7 @@
 from pathlib import Path
 
 APP_NAME = "Sképsis Assistant"
-APP_VERSION = "0.8.2"
+APP_VERSION = "0.8.3"
 PAGE_TITLE = "Sképsis Assistant | Diagnóstico de proyectos"
 MAX_MESSAGE_LENGTH = 500
 

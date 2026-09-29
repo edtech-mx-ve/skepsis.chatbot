@@ -10,6 +10,11 @@ from src.services.service_knowledge import ServiceKnowledge
 
 _FACET_SUMMARIES = MappingProxyType(
     {
+        "pln_chatbot": (
+            "Podemos diseñar un chatbot de dominio para atención, preguntas "
+            "frecuentes, citas, derivación a una persona e integración con "
+            "canales como web o WhatsApp, según el alcance."
+        ),
         "deep_learning": (
             "Podemos evaluar un prototipo neuronal y compararlo con un "
             "baseline antes de justificar mayor complejidad."
@@ -63,6 +68,10 @@ _FACET_SUMMARIES = MappingProxyType(
 
 _FACET_QUESTIONS = MappingProxyType(
     {
+        "pln_chatbot": (
+            "¿Qué tareas debe resolver el chatbot, qué fuentes de información "
+            "usará y en qué canal (web, WhatsApp u otro) debe operar?"
+        ),
         "deep_learning": (
             "¿Qué tipo de datos tienes y qué métrica definiría que una red "
             "neuronal aporta valor frente a un baseline?"
@@ -125,6 +134,10 @@ class ServiceResponseComposer:
     ) -> None:
         self._base = base_knowledge
         self._services = service_knowledge
+
+    def supports_facet(self, facet: str) -> bool:
+        """Indica si existe una respuesta específica aprobada para la faceta."""
+        return facet in _FACET_SUMMARIES or facet in _FACET_QUESTIONS
 
     def _service_title(self, intent: str) -> str:
         service = self._base.get("services", {}).get(intent, {})

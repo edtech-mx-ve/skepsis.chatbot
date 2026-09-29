@@ -191,7 +191,12 @@ class ChatbotEngine:
 
                 if (
                     self._service_composer is not None
-                    and facet_match.capability is not None
+                    and (
+                        facet_match.capability is not None
+                        or self._service_composer.supports_facet(
+                            facet_match.facet
+                        )
+                    )
                 ):
                     text = self._service_composer.compose(
                         facet_match,
@@ -269,7 +274,7 @@ class ChatbotEngine:
             intent, confidence = "saludo", 1.0
         elif contains_any(normalized, self._FAREWELLS):
             intent, confidence = "despedida", 1.0
-        elif contains_any(normalized, self._CONTACT):
+        elif self._is_contact_request(normalized):
             intent, confidence = "contacto", 1.0
         elif contains_any(normalized, self._METHODOLOGY):
             intent, confidence = "metodologia", 1.0
@@ -301,17 +306,33 @@ class ChatbotEngine:
         )
 
     def _is_contact_request(self, normalized: str) -> bool:
-        """Detecta solicitudes explícitas de canales o sitio de contacto."""
-        if contains_any(normalized, self._CONTACT):
+        """Distingue pedir contacto de mencionar un canal de integración."""
+        direct_contact_terms = [
+            "contacto", "contactar", "contactarlos", "comunicarme", "correo",
+            "email", "hablar con alguien", "sitio web", "pagina web",
+            "página web", "website", "sitio oficial", "web de contacto",
+            "direccion web", "dirección web",
+        ]
+        if contains_any(normalized, direct_contact_terms):
             return True
+
+        if "whatsapp" in normalized:
+            return contains_any(
+                normalized,
+                [
+                    "cual es", "cuál es", "numero", "número", "contacto",
+                    "contactar", "contactarlos", "comunicarme", "escribirles",
+                    "hablar con", "donde los contacto", "dónde los contacto",
+                ],
+            )
 
         return (
             " web " in f" {normalized} "
             and contains_any(
                 normalized,
                 [
-                    "cual es", "donde", "direccion", "dirección",
-                    "pagina", "página", "sitio",
+                    "cual es", "cuál es", "donde", "dónde", "direccion",
+                    "dirección", "pagina", "página", "sitio",
                 ],
             )
         )
@@ -376,7 +397,15 @@ class ChatbotEngine:
         capability_match = explicit_facet
         if (
             capability_match is not None
-            and capability_match.capability is not None
+            and (
+                capability_match.capability is not None
+                or (
+                    self._service_composer is not None
+                    and self._service_composer.supports_facet(
+                        capability_match.facet
+                    )
+                )
+            )
             and capability_match.confidence
             >= self._FACET_POLICY_MIN_CONFIDENCE
         ):

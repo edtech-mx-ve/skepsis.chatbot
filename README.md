@@ -18,7 +18,7 @@ Sképsis Assistant se encuentra funcional y validada localmente.
 
 La versión Cloud Lite conserva los componentes estables necesarios para despliegue web y omite deliberadamente los modelos pesados de laboratorio. La versión local completa mantiene además RNN/LSTM/GRU, generación neuronal y FLAN-T5 local.
 
-**Versión actual:** `0.8.2`  
+**Versión actual:** `0.8.3`  
 **Estado del despliegue público:** pendiente de publicación en Streamlit Community Cloud.
 
 La aplicación web utiliza directamente los artefactos ya entrenados; no es necesario reentrenar los modelos para usar la interfaz.
@@ -51,7 +51,7 @@ Puede:
 
 ## Sprint 8 — atención ampliada por facetas
 
-La versión `0.8.2` conserva las **12 intenciones principales** y añade una segunda capa determinista de facetas. No se reentrenó el baseline de intención.
+La versión `0.8.3` conserva las **12 intenciones principales** y añade una segunda capa determinista de facetas. No se reentrenó el baseline de intención.
 
 ```text
 mensaje
@@ -466,9 +466,9 @@ Antes de publicar cambios:
 & ".\.venv\Scripts\python.exe" -m scripts.check_release_sprint8
 ```
 
-Estado validado de la versión `0.8.2`:
+Estado validado de la versión `0.8.3`:
 
-- **184 pruebas automatizadas**;
+- **190 pruebas automatizadas**;
 - facetas Sprint 8: **15/15**;
 - Cloud Lite: **11/11**;
 - robustez: **0 fallos**;

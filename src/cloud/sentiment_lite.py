@@ -204,6 +204,14 @@ class CloudSentimentAnalyzer:
             "necesito explicar",
             "motor de reglas",
             "sistema basado en reglas",
+            "quiero tener un chatbot",
+            "necesito un chatbot",
+            "quiero que el chatbot",
+            "necesito que el chatbot",
+            "chatbot funcione",
+            "chatbot por whatsapp",
+            "chatbot desde whatsapp",
+            "asistente virtual",
         )
         if any(
             marker in normalized
