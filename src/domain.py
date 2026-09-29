@@ -2,11 +2,15 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
+
 @dataclass(slots=True)
 class ConversationState:
-    """Estado mínimo de una conversación durante el Sprint 1."""
+    """Estado mínimo de una conversación, sin persistir texto del usuario."""
+
     last_intent: Optional[str] = None
     service_interest: Optional[str] = None
+    service_facet: Optional[str] = None
+    service_maturity: Optional[str] = None
     turn_count: int = 0
     history: list[str] = field(default_factory=list)
 

@@ -119,12 +119,22 @@ class ControlledResponseGenerator:
                 "La información de contacto está incompleta."
             )
 
+        mexico_digits = "".join(
+            char for char in str(contact["whatsapp_mexico"])
+            if char.isdigit()
+        )
+        venezuela_digits = "".join(
+            char for char in str(contact["whatsapp_venezuela"])
+            if char.isdigit()
+        )
         return (
             "Puedes contactar a Sképsis Apps por:\n\n"
-            f"- Correo: **{contact['email']}**\n"
-            f"- WhatsApp México: **{contact['whatsapp_mexico']}**\n"
-            f"- WhatsApp Venezuela: **{contact['whatsapp_venezuela']}**\n"
-            f"- Sitio: {contact['website']}"
+            f"- Correo: [**{contact['email']}**](mailto:{contact['email']})\n"
+            "- WhatsApp México:  \n"
+            f"  [**{contact['whatsapp_mexico']}**](https://wa.me/{mexico_digits})\n"
+            "- WhatsApp Venezuela:  \n"
+            f"  [**{contact['whatsapp_venezuela']}**](https://wa.me/{venezuela_digits})\n"
+            f"- Sitio: [**Sképsis Apps**]({contact['website']})"
         )
 
     def services_overview(self) -> str:

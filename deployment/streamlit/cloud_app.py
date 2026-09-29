@@ -1,8 +1,8 @@
 """Sképsis Assistant — perfil Cloud Lite para Streamlit Community Cloud.
 
 Este entrypoint conserva la funcionalidad estable del ChatBot:
-clasificación de intención, sentimiento Word2Vec, contexto conversacional,
-generación controlada y guardrails.
+clasificación de intención, facetas de servicio, sentimiento Word2Vec,
+contexto conversacional, generación controlada y guardrails.
 
 Los laboratorios de PyTorch/Transformers se omiten deliberadamente para reducir
 memoria, tamaño de instalación y tiempos de arranque en el nivel gratuito.
@@ -26,6 +26,7 @@ from config.settings import (  # noqa: E402
     INTENT_CONFIDENCE_THRESHOLD,
     INTENT_MODEL_PATH,
     KNOWLEDGE_BASE_PATH,
+    SERVICE_KNOWLEDGE_PATH,
     LOGO_LEFT_PATH,
     LOGO_RIGHT_PATH,
     MAX_CLOUD_MESSAGE_LENGTH,
@@ -45,7 +46,12 @@ from src.knowledge import (  # noqa: E402
     KnowledgeBaseError,
     load_knowledge_base,
 )
+from src.services.service_knowledge import (  # noqa: E402
+    ServiceKnowledgeError,
+    load_service_knowledge,
+)
 from src.logging_config import configure_logging  # noqa: E402
+from src.ui.analysis import format_analysis_text  # noqa: E402
 from src.ui.info_sections import get_info_sections  # noqa: E402
 from src.ml.intent_classifier import (  # noqa: E402
     IntentClassifier,
@@ -63,6 +69,21 @@ LOGGER = configure_logging()
 @st.cache_resource
 def get_engine() -> ChatbotEngine:
     knowledge = load_knowledge_base(KNOWLEDGE_BASE_PATH)
+    service_knowledge = None
+    if SERVICE_KNOWLEDGE_PATH.exists():
+        try:
+            service_knowledge = load_service_knowledge(
+                SERVICE_KNOWLEDGE_PATH
+            )
+            LOGGER.info(
+                "service_knowledge_loaded version=%s",
+                service_knowledge.version,
+            )
+        except ServiceKnowledgeError as exc:
+            LOGGER.warning(
+                "service_knowledge_unavailable error=%s",
+                exc,
+            )
     predictor = None
 
     if INTENT_MODEL_PATH.exists():
@@ -79,6 +100,7 @@ def get_engine() -> ChatbotEngine:
         knowledge=knowledge,
         intent_predictor=predictor,
         ml_threshold=INTENT_CONFIDENCE_THRESHOLD,
+        service_knowledge=service_knowledge,
     )
 
 
@@ -291,16 +313,18 @@ def main() -> None:
 
     analysis_text = None
     if show_analysis:
-        sentiment_text = (
-            f"{sentiment.label} ({sentiment.confidence:.2f})"
-            if sentiment is not None
-            else "no disponible"
-        )
-        analysis_text = (
-            f"Intención: {response.intent} "
-            f"({response.confidence:.2f}) · "
-            f"Sentimiento: {sentiment_text} · "
-            "Generación: controlada"
+        analysis_text = format_analysis_text(
+            response=response,
+            sentiment_label=(
+                sentiment.label
+                if sentiment is not None
+                else None
+            ),
+            sentiment_confidence=(
+                sentiment.confidence
+                if sentiment is not None
+                else None
+            ),
         )
 
     _append_message(
@@ -316,10 +340,12 @@ def main() -> None:
 
     LOGGER.info(
         "cloud_turn_processed intent=%s confidence=%.3f "
-        "source=%s sentiment=%s turn=%d",
+        "source=%s facet=%s maturity=%s sentiment=%s turn=%d",
         response.intent,
         response.confidence,
         response.source,
+        response.facet or "none",
+        response.maturity or "none",
         (
             sentiment.label
             if sentiment is not None

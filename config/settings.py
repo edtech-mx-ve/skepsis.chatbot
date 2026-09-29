@@ -2,7 +2,7 @@
 from pathlib import Path
 
 APP_NAME = "Sképsis Assistant"
-APP_VERSION = "0.7.10"
+APP_VERSION = "0.8.2"
 PAGE_TITLE = "Sképsis Assistant | Diagnóstico de proyectos"
 MAX_MESSAGE_LENGTH = 500
 
@@ -22,6 +22,7 @@ REPORTS_DIR = BASE_DIR / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 
 KNOWLEDGE_BASE_PATH = DATA_DIR / "knowledge_base.json"
+SERVICE_KNOWLEDGE_PATH = DATA_DIR / "service_knowledge_v2.json"
 INTENTS_DATASET_PATH = DATA_DIR / "intents.csv"
 TRAIN_SPLIT_PATH = SPLITS_DIR / "train.csv"
 VALIDATION_SPLIT_PATH = SPLITS_DIR / "validation.csv"
@@ -175,3 +176,9 @@ RELEASE_REPORT_PATH = REPORTS_DIR / "sprint7" / "release_readiness.json"
 MAX_SESSION_MESSAGES = 40
 MAX_HISTORY_TURNS = 10
 MAX_CLOUD_MESSAGE_LENGTH = 500
+
+
+# Sprint 8 — atención ampliada por facetas de servicio
+SPRINT8_REPORTS_DIR = REPORTS_DIR / "sprint8"
+SPRINT8_SERVICE_REPORT_PATH = SPRINT8_REPORTS_DIR / "service_facets_check.json"
+SPRINT8_RELEASE_REPORT_PATH = SPRINT8_REPORTS_DIR / "release_readiness.json"

@@ -2,9 +2,10 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
-.env
 .streamlit/secrets.toml
+.env
 logs/
-*.zip
-.DS_Store
-Thumbs.db
+# Hugging Face local model weights: download with scripts.prepare_sprint6
+artifacts/sprint6/huggingface/flan-t5-small/*
+!artifacts/sprint6/huggingface/flan-t5-small/.gitkeep
+artifacts/sprint6/huggingface/_download_cache/

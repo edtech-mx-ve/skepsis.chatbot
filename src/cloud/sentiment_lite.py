@@ -181,6 +181,39 @@ class CloudSentimentAnalyzer:
                 confidence=0.90,
             )
 
+        neutral_technical_request_markers = (
+            "quiero entrenar",
+            "necesito entrenar",
+            "quiero clasificar",
+            "necesito clasificar",
+            "quiero analizar",
+            "necesito analizar",
+            "quiero adaptar",
+            "necesito adaptar",
+            "quiero optimizar",
+            "necesito optimizar",
+            "quiero representar",
+            "necesito representar",
+            "quiero usar",
+            "necesito usar",
+            "quiero planificar",
+            "necesito planificar",
+            "quiero reutilizar",
+            "necesito reutilizar",
+            "quiero explicar",
+            "necesito explicar",
+            "motor de reglas",
+            "sistema basado en reglas",
+        )
+        if any(
+            marker in normalized
+            for marker in neutral_technical_request_markers
+        ):
+            return CloudSentimentPrediction(
+                label="neutral",
+                confidence=0.90,
+            )
+
         neutral_question_markers = (
             "cual es",
             "cuál es",

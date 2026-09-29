@@ -20,7 +20,7 @@ INFO_SECTIONS: tuple[InfoSection, ...] = (
             "1. Escribe tu necesidad tecnológica.\n"
             "2. La app detecta la intención y el tono.\n"
             "3. Responde con conocimiento aprobado de Sképsis Apps.\n"
-            "4. Activa **Mostrar análisis PLN** para ver intención y sentimiento.\n\n"
+            "4. Activa **Mostrar análisis PLN** para ver intención, faceta, madurez y sentimiento.\n\n"
             "**Ejemplos:** automatización, IA, datos, APIs, metodología y contacto."
         ),
     ),
@@ -32,6 +32,7 @@ INFO_SECTIONS: tuple[InfoSection, ...] = (
             "- Deep Learning: **RNN, LSTM y GRU** implementadas en PyTorch CPU.\n"
             "- Intención recurrente: **LSTM** seleccionada como mejor experimento.\n"
             "- Sentimiento: **Word2Vec + reglas**; GloVe queda como comparación.\n"
+            "- Servicios: **facetas deterministas** enriquecen el diagnóstico sin reentrenar las 12 intenciones.\n"
             "- Generación oficial: **controlada**; GRU y FLAN-T5 quedan como laboratorios locales.\n\n"
             "Cloud Lite usa solo los componentes estables y ligeros."
         ),

@@ -1,0 +1,398 @@
+{
+  "metadata": {
+    "name": "Expansión propuesta de conocimiento de servicios Sképsis Apps",
+    "version": "2.0.0",
+    "status": "reviewed_for_app_integration",
+    "purpose": "Mejorar atención de Sképsis Assistant sin modificar las 12 intenciones principales.",
+    "source_basis": [
+      "https://skepsis-apps.github.io/landing_page/",
+      "current Sképsis Assistant knowledge base",
+      "Aprendizaje Profundo — unidades 1 a 4",
+      "Razonamiento Inteligente — unidades 1 a 4"
+    ],
+    "change_summary": "Se incorporan Aprendizaje Profundo y Razonamiento Inteligente como capacidades ajustadas dentro de las intenciones existentes, sin crear nuevas intenciones principales."
+  },
+  "strategy": {
+    "keep_primary_intents": true,
+    "reason": "Evitar degradar el clasificador estable; detectar facetas después de la intención.",
+    "flow": [
+      "primary_intent",
+      "service_facet",
+      "diagnostic_question",
+      "approved_response"
+    ]
+  },
+  "facets": {
+    "ia_aplicada": [
+      "prediccion",
+      "clasificacion",
+      "recomendacion",
+      "pln_chatbot",
+      "vision_computacional",
+      "anomalias",
+      "prototipo_ml",
+      "deep_learning",
+      "pln_profundo",
+      "rnn_lstm_gru",
+      "transfer_learning",
+      "optimizacion_modelos",
+      "representacion_conocimiento",
+      "sistemas_reglas",
+      "busqueda_heuristica",
+      "planificacion_strips",
+      "cbr",
+      "decision_explicable"
+    ],
+    "ciencia_datos": [
+      "analisis_exploratorio",
+      "limpieza",
+      "calidad_datos",
+      "indicadores",
+      "segmentacion",
+      "estadistica",
+      "visualizacion",
+      "preparacion_ml"
+    ],
+    "automatizacion": [
+      "reportes",
+      "archivos",
+      "integracion",
+      "etl",
+      "validaciones",
+      "tareas_programadas",
+      "iot_monitoreo",
+      "sistemas_reglas",
+      "planificacion_strips",
+      "decision_explicable"
+    ],
+    "aplicaciones_empresariales": [
+      "dashboard_bi",
+      "app_interna",
+      "api",
+      "portal",
+      "demostrador",
+      "mvp",
+      "despliegue"
+    ]
+  },
+  "diagnostic_questions": {
+    "universal": [
+      "¿Qué problema quieres resolver?",
+      "¿Qué resultado esperas obtener?",
+      "¿Quién utilizará la solución?",
+      "¿Qué datos tienes disponibles?",
+      "¿En qué formato están?",
+      "¿Con qué frecuencia ocurre el proceso?",
+      "¿Con qué sistemas debe integrarse?",
+      "¿Cómo sabrías que el proyecto funcionó?"
+    ],
+    "ia_aplicada": [
+      "¿Qué resultado necesitas: clasificar, predecir, recomendar o automatizar?",
+      "¿Ya existen datos históricos?",
+      "¿Qué nivel de error sería aceptable?"
+    ],
+    "ciencia_datos": [
+      "¿Qué decisión quieres apoyar con los datos?",
+      "¿Dónde están los datos?",
+      "¿Qué indicador te interesa comprender o mejorar?"
+    ],
+    "automatizacion": [
+      "¿Qué tarea se repite?",
+      "¿Con qué frecuencia?",
+      "¿Qué entradas recibe y qué resultado debe producir?"
+    ],
+    "aplicaciones_empresariales": [
+      "¿Quién utilizará la solución?",
+      "¿Qué acción principal debe permitir?",
+      "¿Debe integrarse con otros sistemas?"
+    ],
+    "aprendizaje_profundo": [
+      "¿El problema trabaja principalmente con datos tabulares, texto, imágenes o secuencias?",
+      "¿Existe un dataset suficiente y con etiquetas confiables para entrenar o adaptar un modelo?",
+      "¿Qué métrica y nivel de error definirían que el modelo es útil para el caso?",
+      "¿Se busca un prototipo de validación o una integración productiva?"
+    ],
+    "razonamiento_inteligente": [
+      "¿Existen reglas de negocio explícitas que deban respetarse?",
+      "¿El problema incluye excepciones o condiciones que cambian según el contexto?",
+      "¿Se necesita encontrar una secuencia de acciones para alcanzar un objetivo?",
+      "¿Existen casos históricos que puedan reutilizarse como experiencia?",
+      "¿La salida debe incluir una explicación de las reglas, casos o pasos utilizados?"
+    ]
+  },
+  "routing_examples": [
+    {
+      "phrase": "predecir demanda",
+      "intent": "ia_aplicada",
+      "facet": "prediccion"
+    },
+    {
+      "phrase": "clasificar solicitudes",
+      "intent": "ia_aplicada",
+      "facet": "clasificacion"
+    },
+    {
+      "phrase": "chatbot empresarial",
+      "intent": "ia_aplicada",
+      "facet": "pln_chatbot"
+    },
+    {
+      "phrase": "procesar imágenes",
+      "intent": "ia_aplicada",
+      "facet": "vision_computacional"
+    },
+    {
+      "phrase": "analizar ventas",
+      "intent": "ciencia_datos",
+      "facet": "analisis_exploratorio"
+    },
+    {
+      "phrase": "limpiar datos",
+      "intent": "ciencia_datos",
+      "facet": "limpieza"
+    },
+    {
+      "phrase": "automatizar reportes",
+      "intent": "automatizacion",
+      "facet": "reportes"
+    },
+    {
+      "phrase": "flujo ETL",
+      "intent": "automatizacion",
+      "facet": "etl"
+    },
+    {
+      "phrase": "MQTT sensores",
+      "intent": "automatizacion",
+      "facet": "iot_monitoreo"
+    },
+    {
+      "phrase": "dashboard gerencial",
+      "intent": "aplicaciones_empresariales",
+      "facet": "dashboard_bi"
+    },
+    {
+      "phrase": "crear API",
+      "intent": "aplicaciones_empresariales",
+      "facet": "api"
+    },
+    {
+      "phrase": "prototipo MVP",
+      "intent": "aplicaciones_empresariales",
+      "facet": "mvp"
+    },
+    {
+      "phrase": "quiero entrenar una red neuronal",
+      "intent": "ia_aplicada",
+      "facet": "deep_learning"
+    },
+    {
+      "phrase": "necesito clasificar imágenes",
+      "intent": "ia_aplicada",
+      "facet": "vision_computacional"
+    },
+    {
+      "phrase": "quiero analizar secuencias con LSTM",
+      "intent": "ia_aplicada",
+      "facet": "rnn_lstm_gru"
+    },
+    {
+      "phrase": "quiero adaptar un modelo preentrenado",
+      "intent": "ia_aplicada",
+      "facet": "transfer_learning"
+    },
+    {
+      "phrase": "necesito optimizar hiperparámetros",
+      "intent": "ia_aplicada",
+      "facet": "optimizacion_modelos"
+    },
+    {
+      "phrase": "quiero un motor de reglas",
+      "intent": "ia_aplicada",
+      "facet": "sistemas_reglas"
+    },
+    {
+      "phrase": "necesito planificar una secuencia de acciones",
+      "intent": "automatizacion",
+      "facet": "planificacion_strips"
+    },
+    {
+      "phrase": "quiero reutilizar casos anteriores para recomendar una solución",
+      "intent": "ia_aplicada",
+      "facet": "cbr"
+    },
+    {
+      "phrase": "necesito explicar por qué el sistema tomó esa decisión",
+      "intent": "ia_aplicada",
+      "facet": "decision_explicable"
+    }
+  ],
+  "not_documented_as_standard_service": [
+    "soporte 24/7",
+    "SLA empresariales",
+    "administración permanente de infraestructura",
+    "auditoría formal de ciberseguridad",
+    "asesoría legal",
+    "asesoría médica",
+    "asesoría financiera regulada",
+    "implementación integral de ERP/CRM de terceros",
+    "instalación física de hardware industrial",
+    "certificaciones biométricas",
+    "garantía de exactitud de modelos",
+    "desarrollo móvil nativo como línea explícita"
+  ],
+  "escalation_triggers": [
+    "usuario solicita precio",
+    "usuario solicita plazo",
+    "usuario quiere contratar",
+    "integraciones específicas",
+    "información sensible",
+    "arquitectura detallada",
+    "caso fuera de conocimiento aprobado",
+    "decisión autónoma de alto impacto",
+    "biometría productiva o identificación regulada",
+    "control físico, robótico o industrial crítico",
+    "requisitos regulatorios o de seguridad no definidos"
+  ],
+  "capability_extensions": {
+    "aprendizaje_profundo": {
+      "label": "Aprendizaje profundo",
+      "primary_intents": [
+        "ia_aplicada"
+      ],
+      "maturity": "capacidad_tecnica_y_prototipado",
+      "source_units": {
+        "unidad_1": [
+          "fundamentos de aprendizaje profundo",
+          "neuronas, capas, pesos y funciones de activación",
+          "redes feedforward",
+          "backpropagation",
+          "optimización por gradiente"
+        ],
+        "unidad_2": [
+          "redes neuronales convolucionales (CNN)",
+          "convolución, pooling, padding y stride",
+          "LeNet, AlexNet, VGG y ResNet",
+          "clasificación, detección y segmentación de imágenes"
+        ],
+        "unidad_3": [
+          "RNN, LSTM y GRU",
+          "procesamiento del lenguaje natural con aprendizaje profundo",
+          "generación de texto",
+          "análisis de sentimientos",
+          "Word2Vec y GloVe"
+        ],
+        "unidad_4": [
+          "transfer learning",
+          "redes generativas adversariales (GAN)",
+          "ajuste de hiperparámetros"
+        ]
+      },
+      "service_facets": [
+        "deep_learning",
+        "vision_computacional",
+        "pln_profundo",
+        "rnn_lstm_gru",
+        "transfer_learning",
+        "optimizacion_modelos"
+      ],
+      "areas_of_attention": [
+        "diseño y evaluación de prototipos con redes neuronales",
+        "clasificación, detección y segmentación de imágenes",
+        "procesamiento de texto y secuencias",
+        "análisis de sentimiento",
+        "embeddings y representación de palabras",
+        "adaptación de modelos mediante transfer learning",
+        "optimización y ajuste de hiperparámetros",
+        "experimentación con modelos generativos cuando el caso lo justifique"
+      ],
+      "diagnostic_questions": [
+        "¿El problema trabaja principalmente con datos tabulares, texto, imágenes o secuencias?",
+        "¿Existe un dataset suficiente y con etiquetas confiables para entrenar o adaptar un modelo?",
+        "¿Qué métrica y nivel de error definirían que el modelo es útil para el caso?",
+        "¿Se busca un prototipo de validación o una integración productiva?"
+      ],
+      "communication_rule": "Presentar como capacidad técnica para diseño, prototipado, entrenamiento, evaluación y optimización de modelos de aprendizaje profundo. La adopción productiva depende de datos, métricas, recursos, riesgos y validación específica.",
+      "limits": [
+        "no prometer precisión antes de evaluar datos y baseline",
+        "no presentar GAN como solución productiva por defecto",
+        "no presentar visión por computadora como biometría certificada",
+        "no sustituir validación humana en casos de alto impacto"
+      ]
+    },
+    "razonamiento_inteligente": {
+      "label": "Razonamiento inteligente",
+      "primary_intents": [
+        "ia_aplicada",
+        "automatizacion"
+      ],
+      "maturity": "capacidad_tecnica_y_prototipado",
+      "source_units": {
+        "unidad_1": [
+          "razonamiento inteligente y representación del conocimiento",
+          "lógica proposicional y lógica de predicados",
+          "redes semánticas",
+          "razonamiento deductivo",
+          "sistemas basados en reglas",
+          "introducción a la planificación automática"
+        ],
+        "unidad_2": [
+          "razonamiento no monótono",
+          "sistemas basados en reglas complejas",
+          "heurísticas y métodos de búsqueda",
+          "lenguaje natural y sistemas basados en reglas"
+        ],
+        "unidad_3": [
+          "planificación automática",
+          "STRIPS",
+          "implementación y extensiones de STRIPS"
+        ],
+        "unidad_4": [
+          "razonamiento basado en casos (CBR)",
+          "integración de CBR con sistemas basados en reglas",
+          "planificación compleja",
+          "solución de problemas complejos",
+          "ética en aplicaciones de razonamiento inteligente"
+        ]
+      },
+      "service_facets": [
+        "representacion_conocimiento",
+        "sistemas_reglas",
+        "busqueda_heuristica",
+        "planificacion_strips",
+        "cbr",
+        "decision_explicable"
+      ],
+      "areas_of_attention": [
+        "sistemas basados en reglas y conocimiento explícito",
+        "motores de decisión con condiciones, excepciones y trazabilidad",
+        "búsqueda heurística para explorar alternativas",
+        "planificación de acciones y tareas",
+        "prototipos STRIPS con estados, precondiciones, acciones y objetivos",
+        "recuperación y reutilización de experiencias mediante CBR",
+        "integración de reglas con casos previos",
+        "asistentes híbridos con PLN, reglas y conocimiento",
+        "apoyo explicable a la toma de decisiones"
+      ],
+      "diagnostic_questions": [
+        "¿Existen reglas de negocio explícitas que deban respetarse?",
+        "¿El problema incluye excepciones o condiciones que cambian según el contexto?",
+        "¿Se necesita encontrar una secuencia de acciones para alcanzar un objetivo?",
+        "¿Existen casos históricos que puedan reutilizarse como experiencia?",
+        "¿La salida debe incluir una explicación de las reglas, casos o pasos utilizados?"
+      ],
+      "communication_rule": "Presentar como capacidad técnica para sistemas de razonamiento, planificación y apoyo explicable a decisiones. No presentarlo como autonomía general ni como control automático de procesos críticos sin supervisión, ingeniería y validación específicas.",
+      "limits": [
+        "no presentar STRIPS como control autónomo certificado",
+        "no automatizar decisiones de alto impacto sin supervisión",
+        "no afirmar explicabilidad total cuando intervienen modelos opacos",
+        "no convertir reglas académicas en políticas productivas sin validación de dominio"
+      ]
+    }
+  },
+  "maturity_model": {
+    "servicio_estable": "Capacidad alineada con la oferta y componentes ya consolidados; puede describirse directamente sin prometer resultados específicos antes del diagnóstico.",
+    "capacidad_tecnica_y_prototipado": "Capacidad respaldada técnicamente para diagnóstico, diseño y prototipado; requiere validar datos, métricas, recursos y riesgos antes de comprometer una solución productiva.",
+    "requiere_validacion_especifica": "Caso con alto impacto, regulación, seguridad física, biometría productiva o autonomía; debe escalarse a revisión humana antes de asumir alcance."
+  }
+}
