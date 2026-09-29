@@ -8,7 +8,8 @@ Aplicación web desarrollada en Python y Streamlit para orientar consultas sobre
 Maestría en Inteligencia Artificial para la Transformación Digital · Aprendizaje Profundo
 
 **Repositorio:** https://github.com/edtech-mx-ve/skepsis.chatbot  
-**Sitio de Sképsis Apps:** https://skepsis-apps.github.io/landing_page/
+**Sitio de Sképsis Apps:** https://skepsis-apps.github.io/landing_page/  
+**Aplicación pública:** https://skepsis-chatbot.streamlit.app/
 
 ---
 
@@ -18,8 +19,9 @@ Sképsis Assistant se encuentra funcional y validada localmente.
 
 La versión Cloud Lite conserva los componentes estables necesarios para despliegue web y omite deliberadamente los modelos pesados de laboratorio. La versión local completa mantiene además RNN/LSTM/GRU, generación neuronal y FLAN-T5 local.
 
-**Versión actual:** `0.8.3`  
-**Estado del despliegue público:** pendiente de publicación en Streamlit Community Cloud.
+**Versión actual:** `0.8.7`  
+**Estado del despliegue público:** activo en Streamlit Community Cloud.  
+**URL pública:** https://skepsis-chatbot.streamlit.app/
 
 La aplicación web utiliza directamente los artefactos ya entrenados; no es necesario reentrenar los modelos para usar la interfaz.
 
@@ -51,7 +53,7 @@ Puede:
 
 ## Sprint 8 — atención ampliada por facetas
 
-La versión `0.8.3` conserva las **12 intenciones principales** y añade una segunda capa determinista de facetas. No se reentrenó el baseline de intención.
+La versión `0.8.7` conserva las **12 intenciones principales** y añade una segunda capa determinista de facetas. No se reentrenó el baseline de intención.
 
 ```text
 mensaje
@@ -155,7 +157,7 @@ flowchart TD
 | Generación oficial | Controlada, basada en conocimiento aprobado |
 | Generación neuronal experimental | LSTM y GRU |
 | Hugging Face experimental | `google/flan-t5-small` local |
-| Despliegue previsto | Streamlit Community Cloud |
+| Despliegue público | https://skepsis-chatbot.streamlit.app/ |
 | Semilla principal | `42` |
 
 ---
@@ -344,6 +346,7 @@ La interfaz Cloud Lite incluye:
 | Generación | Mostrar generación controlada |
 | Privacidad | Explicar el tratamiento de la sesión |
 | Ayuda | Explicar cómo usar la app |
+| Preguntas sugeridas | 30 preguntas clicables debajo del campo de chat; al seleccionarlas se envían directamente al chatbot |
 | Modelo | Resumir baseline, RNN/LSTM/GRU, embeddings y generación |
 | Evaluación | Resumir métricas obtenidas |
 | Acerca de | Describir Sképsis Apps y ofrecer contacto |
@@ -466,9 +469,9 @@ Antes de publicar cambios:
 & ".\.venv\Scripts\python.exe" -m scripts.check_release_sprint8
 ```
 
-Estado validado de la versión `0.8.3`:
+Estado validado de la versión `0.8.7`:
 
-- **190 pruebas automatizadas**;
+- **216 pruebas automatizadas**;
 - facetas Sprint 8: **15/15**;
 - Cloud Lite: **11/11**;
 - robustez: **0 fallos**;
@@ -612,7 +615,8 @@ git push
 
 # Despliegue en Streamlit Community Cloud
 
-**Estado:** pendiente de publicación pública.
+**Estado:** despliegue público activo.  
+**Aplicación:** https://skepsis-chatbot.streamlit.app/
 
 Configuración preparada:
 
@@ -743,6 +747,7 @@ Tutora: **Dra. Claudia Andrea Vidales Basurto**
 
 - Repositorio: https://github.com/edtech-mx-ve/skepsis.chatbot
 - Sképsis Apps: https://skepsis-apps.github.io/landing_page/
+- Aplicación pública: https://skepsis-chatbot.streamlit.app/
 - Streamlit Community Cloud: https://share.streamlit.io/
 - Institución: https://www.iinternacional.edu.mx/
 
@@ -760,3 +765,9 @@ Texto
 ```
 
 Aplicación académica de Deep Learning y PLN aplicada a orientación tecnológica.
+
+### Política de contacto y acciones
+
+- Las preguntas exclusivas por el sitio web devuelven el enlace oficial de forma concisa.
+- Las consultas compuestas de contacto + sitio devuelven correo, WhatsApp y sitio oficial.
+- Solicitudes como `Envíame un correo` no simulan una acción inexistente: la app indica que no puede enviar correos y ofrece el enlace `mailto:` disponible.

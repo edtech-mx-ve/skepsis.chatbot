@@ -121,6 +121,28 @@ _FACET_QUESTIONS = MappingProxyType(
             "casos o pasos verificables?"
         ),
     }
+
+)
+
+_DOMAIN_SUMMARIES = MappingProxyType(
+    {
+        ("pln_chatbot", "clinico"): (
+            "Podemos evaluar un chatbot de dominio para atención administrativa, "
+            "preguntas "
+            "frecuentes, citas y derivación a personal, con integración web o "
+            "WhatsApp. Si manejará información clínica o de pacientes, el alcance "
+            "requiere controles adicionales."
+        ),
+    }
+)
+
+_DOMAIN_QUESTIONS = MappingProxyType(
+    {
+        ("pln_chatbot", "clinico"): (
+            "¿El chatbot se limitará a citas, horarios y preguntas frecuentes, "
+            "o también procesará información clínica o datos de pacientes?"
+        ),
+    }
 )
 
 
@@ -156,6 +178,12 @@ class ServiceResponseComposer:
         match: FacetMatch,
         follow_up: bool,
     ) -> str:
+        domain_question = _DOMAIN_QUESTIONS.get(
+            (match.facet, match.domain)
+        )
+        if domain_question:
+            return domain_question
+
         if not follow_up:
             direct = _FACET_QUESTIONS.get(match.facet)
             if direct:
@@ -178,14 +206,24 @@ class ServiceResponseComposer:
             return questions[0]
         return "¿Qué resultado esperas obtener?"
 
-    def _maturity_note(self, maturity: str) -> str:
-        if maturity == "requiere_validacion_especifica":
+    def _maturity_note(self, match: FacetMatch) -> str:
+        if (
+            match.maturity == "requiere_validacion_especifica"
+            and match.domain == "clinico"
+        ):
+            return (
+                "_Alcance clínico: requiere validación específica, protección "
+                "de datos sensibles y derivación humana. El chatbot no debe "
+                "asumir diagnóstico, prescripción ni decisiones clínicas "
+                "autónomas._"
+            )
+        if match.maturity == "requiere_validacion_especifica":
             return (
                 "_Alcance: este caso requiere validación específica y "
                 "revisión humana antes de asumir automatización o puesta "
                 "en producción._"
             )
-        if maturity == "capacidad_tecnica_y_prototipado":
+        if match.maturity == "capacidad_tecnica_y_prototipado":
             return (
                 "_Alcance: capacidad técnica y prototipado; una integración "
                 "productiva requiere validar datos, métricas, recursos y riesgos._"
@@ -203,7 +241,7 @@ class ServiceResponseComposer:
             match.suggested_intent
         )
         question = self._question(match, follow_up)
-        note = self._maturity_note(match.maturity)
+        note = self._maturity_note(match)
 
         if follow_up:
             parts = [
@@ -217,7 +255,11 @@ class ServiceResponseComposer:
                 parts.append(note)
             return "\n\n".join(parts)
 
-        summary = _FACET_SUMMARIES.get(match.facet)
+        summary = _DOMAIN_SUMMARIES.get(
+            (match.facet, match.domain)
+        )
+        if not summary:
+            summary = _FACET_SUMMARIES.get(match.facet)
         if not summary:
             profile = self._services.capability_for_facet(
                 match.facet,

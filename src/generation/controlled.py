@@ -105,8 +105,8 @@ class ControlledResponseGenerator:
             "se construye un activo funcional y se valida el resultado."
         )
 
-    def contact_response(self) -> str:
-        """Compone los canales de contacto desde la base de conocimiento."""
+    def contact_response(self, kind: str = "all") -> str:
+        """Compone contacto completo o respuesta directa del sitio web."""
         contact = self._knowledge.get("contact", {})
         required = {
             "email",
@@ -117,6 +117,22 @@ class ControlledResponseGenerator:
         if not required.issubset(contact):
             raise ControlledGenerationError(
                 "La información de contacto está incompleta."
+            )
+
+        if kind == "website":
+            return (
+                "Sitio oficial: "
+                f"[**Sképsis Apps**]({contact['website']})\n\n"
+                "Si necesitas otro canal, también puedo darte correo o WhatsApp."
+            )
+
+        if kind == "email_action_unavailable":
+            return (
+                "No puedo enviar correos directamente desde esta aplicación. "
+                "Puedes escribir a "
+                f"[**{contact['email']}**](mailto:{contact['email']}).\n\n"
+                "Si necesitas otro canal, también puedo darte WhatsApp o el "
+                "sitio oficial."
             )
 
         mexico_digits = "".join(

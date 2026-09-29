@@ -176,25 +176,32 @@ _FACET_LABELS = MappingProxyType(
     }
 )
 
-_HIGH_RISK_TERMS: tuple[str, ...] = (
-    "biometria productiva",
-    "identificacion regulada",
-    "reconocimiento facial productivo",
-    "control industrial critico",
-    "control robotico critico",
-    "robot autonomo",
+_SENSITIVE_DOMAIN_TERMS = MappingProxyType(
+    {
+        "clinico": (
+            "consultorio clinico",
+            "consultorio medico",
+            "clinica",
+            "datos de pacientes",
+            "historia clinica",
+            "sintomas",
+            "triaje",
+            "diagnostico medico",
+            "tratamiento medico",
+        ),
+        "industrial_critico": (
+            "control industrial critico",
+            "control robotico critico",
+            "robot autonomo",
+        ),
+    }
+)
+
+_GENERAL_HIGH_RISK_TERMS: tuple[str, ...] = (
     "decision autonoma de alto impacto",
     "sin supervision humana",
-    "consultorio clinico",
-    "consultorio medico",
-    "clinica",
-    "datos de pacientes",
-    "historia clinica",
-    "sintomas",
-    "triaje",
-    "diagnostico medico",
-    "tratamiento medico",
 )
+
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,6 +215,7 @@ class FacetMatch:
     source: str
     capability: str | None
     maturity: str
+    domain: str | None = None
 
 
 def facet_label(facet: str) -> str:
@@ -266,7 +274,8 @@ class ServiceFacetDetector:
         text: str,
         facet: str,
         intent: str,
-    ) -> tuple[str | None, str]:
+    ) -> tuple[str | None, str, str | None]:
+        """Determina capacidad, madurez y dominio sensible explícito."""
         profile = self._knowledge.capability_for_facet(
             facet,
             intent=intent,
@@ -278,13 +287,20 @@ class ServiceFacetDetector:
             else "servicio_estable"
         )
 
+        domain: str | None = None
+        for domain_name, terms in _SENSITIVE_DOMAIN_TERMS.items():
+            if any(contains_term(text, term) for term in terms):
+                domain = domain_name
+                maturity = "requiere_validacion_especifica"
+                break
+
         if any(
             contains_term(text, term)
-            for term in _HIGH_RISK_TERMS
+            for term in _GENERAL_HIGH_RISK_TERMS
         ):
             maturity = "requiere_validacion_especifica"
 
-        return capability, maturity
+        return capability, maturity, domain
 
     def detect(
         self,
@@ -355,7 +371,7 @@ class ServiceFacetDetector:
             candidates,
             key=lambda item: (item[0], item[1]),
         )
-        capability, maturity = self._maturity(
+        capability, maturity, domain = self._maturity(
             normalized,
             facet,
             intent,
@@ -369,6 +385,7 @@ class ServiceFacetDetector:
             source=source,
             capability=capability,
             maturity=maturity,
+            domain=domain,
         )
 
     def from_context(
@@ -376,6 +393,7 @@ class ServiceFacetDetector:
         facet: str,
         intent: str,
         maturity: str | None,
+        domain: str | None = None,
     ) -> FacetMatch:
         """Reconstruye una faceta conservada en contexto."""
         profile = self._knowledge.capability_for_facet(
@@ -401,4 +419,5 @@ class ServiceFacetDetector:
                     else "servicio_estable"
                 )
             ),
+            domain=domain,
         )

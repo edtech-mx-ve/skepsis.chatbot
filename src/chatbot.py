@@ -1,7 +1,7 @@
 """Motor conversacional híbrido: intención + facetas + generación controlada."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import Any, Protocol
 
 from src.domain import ConversationState
@@ -72,6 +72,13 @@ class ChatbotEngine:
     _FOLLOW_UP = [
         "cuentame mas", "mas informacion", "explicame mas",
         "y eso", "como funciona"
+    ]
+    _DOMAIN_CONTINUATION = [
+        "el chatbot", "ese chatbot", "este chatbot", "el bot",
+        "funcione desde", "funcione por", "funcione en",
+        "desde whatsapp", "por whatsapp", "en whatsapp",
+        "integrarlo", "conectarlo", "quiero que", "necesito que",
+        "tambien", "ademas"
     ]
     _PREDICTIVE_STRONG = [
         "anticipar", "proyectar", "pronosticar", "pronostico",
@@ -169,7 +176,74 @@ class ChatbotEngine:
             facet=state.service_facet,
             intent=state.service_interest,
             maturity=state.service_maturity,
+            domain=state.service_domain,
         )
+
+    def _preserve_sensitive_domain(
+        self,
+        normalized: str,
+        match: FacetMatch | None,
+        state: ConversationState,
+    ) -> FacetMatch | None:
+        """Conserva riesgo de dominio solo si el turno continúa el mismo caso."""
+        if match is None:
+            return None
+        if (
+            state.service_domain is None
+            or state.service_maturity != "requiere_validacion_especifica"
+            or state.service_facet != match.facet
+            or match.domain is not None
+        ):
+            return match
+
+        if contains_any(normalized, self._DOMAIN_CONTINUATION):
+            return replace(
+                match,
+                maturity="requiere_validacion_especifica",
+                domain=state.service_domain,
+            )
+        return match
+
+    def _contact_request_kind(self, normalized: str) -> str | None:
+        """Clasifica sitio, contacto completo o acción de correo no disponible."""
+        website_terms = [
+            "sitio web", "pagina web", "website",
+            "sitio oficial", "direccion web",
+        ]
+        general_contact_terms = [
+            "contacto", "contactar", "contactarlos", "comunicarme",
+            "hablar con alguien", "donde los contacto",
+            "como puedo contactar", "como los contacto",
+        ]
+        email_action_terms = [
+            "enviame un correo", "envia un correo", "enviar un correo",
+            "mandame un correo", "manda un correo", "mandar un correo",
+            "enviame un email", "envia un email", "enviar un email",
+            "mandame un email", "manda un email", "mandar un email",
+            "escribe un correo", "escribeles un correo",
+            "escribe un email", "escribeles un email",
+            "quiero que envies un correo", "quiero que envies un email",
+            "puedes enviar un correo", "puedes enviar un email",
+        ]
+
+        if contains_any(normalized, email_action_terms):
+            return "email_action_unavailable"
+
+        if not self._is_contact_request(normalized):
+            return None
+
+        has_website = contains_any(normalized, website_terms)
+        has_general_contact = contains_any(
+            normalized,
+            general_contact_terms,
+        )
+
+        # Una consulta compuesta como "cómo puedo contactar ... y cuál es
+        # su sitio oficial" debe devolver todos los canales, no solo el sitio.
+        if has_website and not has_general_contact:
+            return "website"
+
+        return "contact"
 
     def _build_response(
         self,
@@ -188,6 +262,7 @@ class ChatbotEngine:
                 state.service_interest = intent
                 state.service_facet = facet_match.facet
                 state.service_maturity = facet_match.maturity
+                state.service_domain = facet_match.domain
 
                 if (
                     self._service_composer is not None
@@ -226,6 +301,7 @@ class ChatbotEngine:
             if not follow_up:
                 state.service_facet = None
                 state.service_maturity = None
+                state.service_domain = None
 
             text = self._service_response(
                 intent,
@@ -360,18 +436,37 @@ class ChatbotEngine:
         # el contexto previo. Esto evita que "motor de reglas. Cuéntame más"
         # herede accidentalmente la faceta de un turno anterior.
         explicit_facet = self._detect_facet(normalized)
+        explicit_facet = self._preserve_sensitive_domain(
+            normalized,
+            explicit_facet,
+            state,
+        )
 
         # Contacto explícito conserva prioridad incluso si el mensaje incluye
         # una expresión de seguimiento.
-        if self._is_contact_request(normalized):
+        contact_kind = self._contact_request_kind(normalized)
+        if contact_kind is not None:
             intent = "contacto"
-            response = self._build_response(
-                intent=intent,
-                confidence=1.0,
-                source="policy",
-                state=state,
-                sentiment=sentiment,
-            )
+            if contact_kind in {
+                "website",
+                "email_action_unavailable",
+            }:
+                response = ChatResponse(
+                    text=self._response_generator.contact_response(
+                        kind=contact_kind
+                    ),
+                    intent=intent,
+                    confidence=1.0,
+                    source="policy",
+                )
+            else:
+                response = self._build_response(
+                    intent=intent,
+                    confidence=1.0,
+                    source="policy",
+                    state=state,
+                    sentiment=sentiment,
+                )
             state.register_turn(intent)
             return response
 
@@ -384,9 +479,13 @@ class ChatbotEngine:
                 source="policy",
                 state=state,
                 sentiment=sentiment,
-                facet_match=self._detect_facet(
+                facet_match=self._preserve_sensitive_domain(
                     normalized,
-                    primary_intent=intent,
+                    self._detect_facet(
+                        normalized,
+                        primary_intent=intent,
+                    ),
+                    state,
                 ),
             )
             state.register_turn(intent)
@@ -427,9 +526,13 @@ class ChatbotEngine:
         if has_follow_up:
             explicit_service = self._route_service_rules(normalized)
             if explicit_service:
-                facet_match = self._detect_facet(
+                facet_match = self._preserve_sensitive_domain(
                     normalized,
-                    primary_intent=explicit_service,
+                    self._detect_facet(
+                        normalized,
+                        primary_intent=explicit_service,
+                    ),
+                    state,
                 )
                 response = self._build_response(
                     intent=explicit_service,
@@ -465,9 +568,13 @@ class ChatbotEngine:
             confidence = float(getattr(prediction, "confidence"))
             if confidence >= self._ml_threshold:
                 facet_match = (
-                    self._detect_facet(
+                    self._preserve_sensitive_domain(
                         normalized,
-                        primary_intent=label,
+                        self._detect_facet(
+                            normalized,
+                            primary_intent=label,
+                        ),
+                        state,
                     )
                     if label in self._SERVICE_INTENTS
                     else None

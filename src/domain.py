@@ -11,6 +11,7 @@ class ConversationState:
     service_interest: Optional[str] = None
     service_facet: Optional[str] = None
     service_maturity: Optional[str] = None
+    service_domain: Optional[str] = None
     turn_count: int = 0
     history: list[str] = field(default_factory=list)
 

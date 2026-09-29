@@ -102,3 +102,12 @@ INFO_SECTIONS: tuple[InfoSection, ...] = (
 def get_info_sections() -> tuple[InfoSection, ...]:
     """Devuelve las secciones informativas en el orden de presentación."""
     return INFO_SECTIONS
+
+
+
+def next_open_info_section(
+    current: str | None,
+    clicked: str,
+) -> str | None:
+    """Mantiene como máximo una sección informativa abierta."""
+    return None if current == clicked else clicked
